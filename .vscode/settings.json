@@ -41,7 +41,11 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "list": "cpp",
+        "map": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp"
     },
     "editor.fontSize": 16
 }
