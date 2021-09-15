@@ -12,12 +12,39 @@ typedef Student* P_Student;
 class Class {
  private:
   vector<P_Student>* students;
+  string className;
 
  public:
-  Class(/* args */);
-  ~Class();
+  Class(string name);
+  ~Class() {
+    int size = students->size();
+    for (int i = 0; i < size; i++) {
+      delete students->at(i);
+    }
+    delete students;
+  }
   vector<P_Student>* getStudents() { return students; }
+  string getClassName() { return className; }
 };
+typedef Class* P_Class;
+
+class School {
+ private:
+  vector<P_Class>* classes;
+
+ public:
+  School();
+  ~School() {
+    int size = classes->size();
+    for (int i = 0; i < size; i++) {
+      delete ((*classes)[i]);
+    }
+
+    delete classes;
+  }
+  vector<P_Class>* getClasses() { return classes; }
+};
+typedef School* P_School;
 
 P_Student initStudent(string name, int age) {
   P_Student p_s1 = new Student;
@@ -58,19 +85,28 @@ void printStudents(vector<P_Student>* p_datas) {
   }
 }
 
-Class::Class() { students = initData(); }
+P_Class initClass(string name) {
+  P_Class pClass = new Class(name);
+  return pClass;
+}
 
-Class::~Class() {
-  int size = students->size();
-  for (int i = 0; i < size; i++) {
-    delete students->at(i);
-  }
-  delete students;
+Class::Class(string name) : className(name) { students = initData(); }
+
+School::School() {
+  classes = new vector<P_Class>;
+  classes->push_back(initClass("qust"));
+  classes->push_back(initClass("wbs"));
+  classes->push_back(initClass("cctv"));
 }
 
 int main() {
-  Class* class1 = new Class;
-
-  printStudents(class1->getStudents());
+  P_School school = new School;
+  vector<P_Class>* classes = school->getClasses();
+  for (vector<P_Class>::iterator it = classes->begin(); it != classes->end();
+       it++) {
+    P_Class c = ((P_Class)*it);
+    cout << "class name:" << c->getClassName() << endl;
+    printStudents(((P_Class)*it)->getStudents());
+  }
   return 0;
 }
