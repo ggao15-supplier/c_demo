@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-int main() {
+int main222() {
   vector<string> v1;
   v1.push_back("aaa");
   v1.push_back("bbb");
