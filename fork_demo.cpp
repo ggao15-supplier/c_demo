@@ -6,7 +6,7 @@
 using namespace std;
 
 void onlyFork() {
-    cout << "fork process.." << endl;
+  cout << "fork process.." << endl;
   pid_t cpid = fork();
   if (cpid < 0) {
     cout << "fork failed" << endl;
