@@ -49,7 +49,8 @@
         "future": "cpp",
         "condition_variable": "cpp",
         "mutex": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "iterator": "cpp"
     },
     "editor.fontSize": 16
 }

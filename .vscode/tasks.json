@@ -3,28 +3,15 @@
     "tasks": [
         {
             "label": "g++",
-            "command": "D:/soft/CodeBlocks/MinGW/bin/g++.exe",
+            "command": "/usr/bin/g++",
             "args": [
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}.exe"
+                "${fileDirname}/build/${fileBasenameNoExtension}"
             ],
-            "problemMatcher": {
-                "owner": "cpp",
-                "fileLocation": [
-                    "relative",
-                    "${workspaceRoot}"
-                ],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
-            },
+            "options": {"cwd": "/usr/bin"},
+            "problemMatcher": ["$gcc"],
             "group": "build"
         }
     ]

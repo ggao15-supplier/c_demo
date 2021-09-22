@@ -48,7 +48,7 @@ void testTask() {
   cout << "result is " << result << endl;
   t2.join();
 }
-int main() {
+int mainS() {
   testAsync();
   testPromise();
   testTask();

@@ -13,7 +13,7 @@
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64",
-            "compilerPath": "D:\\soft\\CodeBlocks\\MinGW\\bin\\g++.exe"
+            "compilerPath": "/usr/bin/g++"
         }
     ],
     "version": 4
