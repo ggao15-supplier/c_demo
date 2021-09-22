@@ -1,7 +1,4 @@
 
-#include <atomic>
-#include <condition_variable>
-#include <future>
 #include <iostream>
 #include <mutex>
 #include <string>
@@ -25,9 +22,9 @@ void thread2() {
   }
 }
 
-void threadHandler(string name) {
+void threadHandler(string name, int second) {
   for (int i = 0; i < NUM; i++) {
-    this_thread::sleep_for(chrono::seconds(1));
+    this_thread::sleep_for(chrono::seconds(second));
     cout << "Thread: " << name << " is working..." << endl;
   }
 }
@@ -60,9 +57,9 @@ void jonThread() {
 }
 
 void detachThread() {
-  cout << "********detach thread*******" << endl;
-  thread t1(threadHandler, "11");
-  thread t2(threadHandler, "22");
+  cout << "********detach thread handler function has params*******" << endl;
+  thread t1(threadHandler, "11", 1);
+  thread t2(threadHandler, "22", 2);
   t1.detach();
   t2.detach();
   // main thread  need to do some also
@@ -79,9 +76,9 @@ void mutexDetachThread() {
   t2.detach();
   system("pause");
 }
-int main() {
+int mainT() {
   // jonThread();
-  detachThread();
-  // mutexDetachThread();
+  // detachThread();
+  mutexDetachThread();
   return 0;
 }

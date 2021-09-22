@@ -45,7 +45,11 @@
         "list": "cpp",
         "map": "cpp",
         "chrono": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "future": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp",
+        "functional": "cpp"
     },
     "editor.fontSize": 16
 }
