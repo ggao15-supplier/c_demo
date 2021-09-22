@@ -99,7 +99,7 @@ School::School() {
   classes->push_back(initClass("cctv"));
 }
 
-int main() {
+int mainp() {
   P_School school = new School;
   vector<P_Class>* classes = school->getClasses();
   for (vector<P_Class>::iterator it = classes->begin(); it != classes->end();

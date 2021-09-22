@@ -1,57 +1,87 @@
-#include <unistd.h>
 
-#include <cstdlib>
+#include <atomic>
+#include <condition_variable>
+#include <future>
 #include <iostream>
+#include <mutex>
 #include <string>
 #include <thread>
+
 #define NUM 6
 using namespace std;
-using namespace this_thread;
-using namespace chrono;
-class StandThreadHandler {
- private:
-  thread* myThread;
-  int index;
 
- public:
-  StandThreadHandler(thread mt, int n) : myThread(mt), index(n) {
-    cout << "crate" << endl;
+int total = 100;
+mutex mu;
+void thread1() {
+  for (int i = 0; i < NUM; i++) {
+    this_thread::sleep_for(chrono::seconds(1));
+    cout << "Thread 1 is working..." << endl;
   }
-  thread* getMyThread() { return myThread; }
-  int getIndex() { return index; }
-};
-void standHanlder(void* arg) {
-  StandThreadHandler* item = (StandThreadHandler*)arg;
-  sleep_for(seconds(1));
-  cout << "standThread" << this_thread::get_id << ";" << item->getIndex()
-       << endl;
-  item->getMyThread()->detach();
+}
+void thread2() {
+  for (int i = 0; i < NUM; i++) {
+    this_thread::sleep_for(chrono::seconds(1));
+    cout << "Thread 2 is working..." << endl;
+  }
 }
 
-void* cHandler(void* arg) {
-  int index = *((int*)arg);
-  sleep(1);
-  cout << "thread:" << index << endl;
-  pthread_detach(pthread_self());
-  return 0;
-}
-// some problem , not work
-void cThread() {
-  void* status;
-  pthread_t tids[NUM];
+void threadHandler(string name) {
   for (int i = 0; i < NUM; i++) {
-    pthread_create(&tids[i], NULL, cHandler, &i);
-    pthread_join(tids[i], &status);
+    this_thread::sleep_for(chrono::seconds(1));
+    cout << "Thread: " << name << " is working..." << endl;
   }
 }
-void standThread() {
-  for (int i = 0; i < NUM; i++) {
-    thread myThread = thread(standHanlder, (&StandThreadHandler(&myThread, i)));
-    myThread.join();
+
+void mutexThread1() {
+  while (total > 0) {
+    mu.lock();
+    cout << "thread1,total:" << total << endl;
+    total--;
+    this_thread::sleep_for(chrono::milliseconds(500));
+    mu.unlock();
   }
+}
+
+void mutexThread2() {
+  while (total > 0) {
+    mu.lock();
+    cout << "thread2,total:" << total << endl;
+    total--;
+    this_thread::sleep_for(chrono::milliseconds(300));
+    mu.unlock();
+  }
+}
+
+void jonThread() {
+  thread t1(thread1);
+  thread t2(thread2);
+  t1.join();
+  t2.join();
+}
+
+void detachThread() {
+  cout << "********detach thread*******" << endl;
+  thread t1(threadHandler, "11");
+  thread t2(threadHandler, "22");
+  t1.detach();
+  t2.detach();
+  // main thread  need to do some also
+  for (int i = 0; i < NUM; i++) {
+    this_thread::sleep_for(chrono::seconds(2));
+    cout << "main thread is work..." << endl;
+  }
+}
+
+void mutexDetachThread() {
+  thread t1(mutexThread1);
+  thread t2(mutexThread2);
+  t1.detach();
+  t2.detach();
+  system("pause");
 }
 int main() {
-  cThread();
-  standThread();
+  // jonThread();
+  detachThread();
+  // mutexDetachThread();
   return 0;
 }
