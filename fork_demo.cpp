@@ -4,9 +4,7 @@
 #include <string>
 
 using namespace std;
-// https://blog.csdn.net/yx903520/article/details/106359598
 
-// 自动补全功能的配置
 void onlyFork() {
   cout << "fork process.." << endl;
   pid_t cpid = fork();

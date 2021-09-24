@@ -50,7 +50,8 @@
         "condition_variable": "cpp",
         "mutex": "cpp",
         "functional": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "random": "cpp"
     },
     "editor.fontSize": 16
 }
