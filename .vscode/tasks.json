@@ -1,10 +1,24 @@
+// use cmake list,algorithm use it
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "g++",
+            "type": "shell",
+            "command": "sh ${workspaceFolder}/build.sh",
+            "group": "build",
+        }
+    ]
+}
+//use vscode default task, basic file use it
+/**
 {
     "version": "2.0.0",
     "tasks": [
         {
             "label": "createBuild",
             "type": "shell",
-            "command": "mkdir -p ${fileDirname}/build/",
+            "command": "mkdir -p ${workspaceFolder}/build/",
         },
         {
             "label": "g++",
@@ -14,7 +28,7 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/build/${fileBasenameNoExtension}"
+                "${workspaceFolder}/build/main"
             ],
             "options": {
                 "cwd": "/usr/bin"
@@ -29,3 +43,4 @@
         }
     ]
 }
+**/
