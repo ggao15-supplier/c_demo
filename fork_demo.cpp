@@ -18,7 +18,7 @@ void onlyFork() {
   }
 }
 
-int main() {
+int mainF() {
   onlyFork();
   return 0;
 }

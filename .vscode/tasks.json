@@ -8,6 +8,7 @@
         },
         {
             "label": "g++",
+            "type": "shell",
             "command": "/usr/bin/g++",
             "args": [
                 "-g",
@@ -15,10 +16,16 @@
                 "-o",
                 "${fileDirname}/build/${fileBasenameNoExtension}"
             ],
-            "options": {"cwd": "/usr/bin"},
-            "problemMatcher": ["$gcc"],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
             "group": "build",
-            "dependsOn":["createBuild"]
+            "dependsOn": [
+                "createBuild"
+            ]
         }
     ]
 }
