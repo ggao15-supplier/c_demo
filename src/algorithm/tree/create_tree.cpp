@@ -3,15 +3,41 @@
 #include <vector>
 
 #include "tree.h"
-template <typename T>
-Node<T>* createTree(vector<T>* middle, vector<T>* pre, int currentIndex,
-                    int preIndex) {
-  Node<T>* tree = new Node<T>;
-  T value = pre->pop_back();
-  tree->data = value;
-  int index = middle - while (!pre->empty()){
 
-                       } { /* code */
+template <typename T>
+int index(vector<T>* list, T value) {
+  for (int i = 0; i < list->size(); i++) {
+    if ((*list)[i] == value) return i;
+  }
+  return -1;
+}
+//添加一个 判断中序的函数
+template <typename T>
+void createTree(Node<T>* tree, vector<T>* middle, vector<T>* pre,
+                int preIndex) {
+  for (int i = 0; i < pre->size(); i++) {
+    T data = (*pre)[i];
+    if (preIndex == -1) {
+      tree = new Node<T>;
+      tree->data = data;
+    } else {
+      int middleIndex = index(middle, data);
+      if (middleIndex < preIndex) {
+        if (tree->left == NULL) {
+          tree->left = new Node<T>;
+          tree->left->data = data;
+        } else {
+          createTree(tree->left, middle, pre, middleIndex);
+        }
+
+      } else {
+        if (tree->right == NULL) {
+          tree->right = createTree(middle, pre, middleIndex);
+        } else {
+          createTree(tree->right, middle, pre, middleIndex);
+        }
+      }
+    }
   }
 
   return tree;
@@ -93,4 +119,29 @@ void testParse() {
   delete t3_r;
   delete v;
 }
-void testCreate() {}
+void testCreate() {
+  vector<int>* middle = new vector<int>;
+  middle->push_back(4);
+  middle->push_back(2);
+  middle->push_back(5);
+  middle->push_back(1);
+  middle->push_back(6);
+  middle->push_back(3);
+  middle->push_back(7);
+
+  vector<int>* pre = new vector<int>;
+  pre->push_back(1);
+  pre->push_back(2);
+  pre->push_back(4);
+  pre->push_back(5);
+  pre->push_back(3);
+  pre->push_back(6);
+  pre->push_back(7);
+
+  Node<int>* tree = createTree(middle, pre, -1);
+  vector<int>* v = new vector<int>;
+  neoParseTree(tree, v);
+  for (vector<int>::iterator item = v->begin(); item != v->end(); item++) {
+    cout << (*item) << endl;
+  }
+}
