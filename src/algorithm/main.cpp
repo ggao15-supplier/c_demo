@@ -1,7 +1,6 @@
 #include <iostream>
 
+#include "tree/tree.h"
 using namespace std;
 
-int main(){
-    cout<<"success"<<endl;
-}
+int main() { testParse(); }
