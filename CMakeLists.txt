@@ -1,4 +1,4 @@
 project(start)
 cmake_minimum_required(VERSION 3.10)
-set(CMAKE_BUILD_TYPE,"Debug")
+set(CMAKE_BUILD_TYPE ,"Debug")
 add_subdirectory(src)

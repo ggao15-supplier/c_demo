@@ -1,12 +1,11 @@
 
-#include <string>
 using namespace std;
 
 template <typename T>
 struct Node {
   T data;
-  Node<T>* left;
-  Node<T>* right;
+  Node<T>* left = NULL;
+  Node<T>* right = NULL;
 };
 void testParse();
 void testCreate();

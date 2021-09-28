@@ -3,44 +3,66 @@
 #include <vector>
 
 #include "tree.h"
+using namespace std;
 
+/**
+ * 获取data在middle 数组中的index
+ * */
 template <typename T>
 int index(vector<T>* list, T value) {
   for (int i = 0; i < list->size(); i++) {
-    if ((*list)[i] == value) return i;
+    if ((*list)[i] == value) {
+      return i;
+    }
   }
   return -1;
 }
-//添加一个 判断中序的函数
+/**
+ * 通过递归来遍历 middle 数组中的数据,比较位置来创建node节点
+ * */
 template <typename T>
-void createTree(Node<T>* tree, vector<T>* middle, vector<T>* pre,
-                int preIndex) {
-  for (int i = 0; i < pre->size(); i++) {
-    T data = (*pre)[i];
-    if (preIndex == -1) {
-      tree = new Node<T>;
-      tree->data = data;
+void parseMiddle(Node<T>* tree, vector<T>* middle, T data) {
+  int currentIndex = index(middle, data);
+  int middleIndex = index(middle, tree->data);
+  if (currentIndex < middleIndex) {
+    if (tree->left == NULL) {
+      tree->left = new Node<T>;
+      tree->left->data = data;
+      tree->left->left = NULL;
+      tree->left->right = NULL;
+      return;
     } else {
-      int middleIndex = index(middle, data);
-      if (middleIndex < preIndex) {
-        if (tree->left == NULL) {
-          tree->left = new Node<T>;
-          tree->left->data = data;
-        } else {
-          createTree(tree->left, middle, pre, middleIndex);
-        }
+      parseMiddle(tree->left, middle, data);
+    }
 
-      } else {
-        if (tree->right == NULL) {
-          tree->right = createTree(middle, pre, middleIndex);
-        } else {
-          createTree(tree->right, middle, pre, middleIndex);
-        }
-      }
+  } else {
+    if (tree->right == NULL) {
+      tree->right = new Node<T>;
+      tree->right->data = data;
+      tree->right->left = NULL;
+      tree->right->right = NULL;
+      return;
+    } else {
+      parseMiddle(tree->right, middle, data);
     }
   }
+}
 
-  return tree;
+/**
+ * 使用 前序数组和中序数组 创建tree
+ * **/
+template <typename T>
+void createTree(Node<T>* tree, vector<T>* middle, vector<T>* pre) {
+  for (int i = 0; i < pre->size(); i++) {
+    T data = (*pre)[i];
+    if (i == 0) {
+      tree->data = data;
+      tree->left = NULL;
+      tree->right = NULL;
+    } else {
+      parseMiddle(tree, middle, data);
+    }
+  }
 }
 
 template <typename T>
@@ -119,6 +141,19 @@ void testParse() {
   delete t3_r;
   delete v;
 }
+/**
+ *
+ * 后序遍历并删除tree
+ */
+template <typename T>
+void neoParseAndDeleteTree(Node<T>* tree, vector<T>* v) {
+  if (v == NULL || tree == NULL) return;
+  neoParseTree(tree->left, v);
+  neoParseTree(tree->right, v);
+  v->push_back(tree->data);
+  delete tree;
+}
+
 void testCreate() {
   vector<int>* middle = new vector<int>;
   middle->push_back(4);
@@ -137,11 +172,15 @@ void testCreate() {
   pre->push_back(3);
   pre->push_back(6);
   pre->push_back(7);
-
-  Node<int>* tree = createTree(middle, pre, -1);
+  //需要在调用createTree时创建root Node指针,这样 在创建完tree之后才能遍历输出
+  Node<int>* tree = new Node<int>;
+  createTree(tree, middle, pre);
+  cout << "end" << endl;
+  //使用后序遍历 输出tree
   vector<int>* v = new vector<int>;
-  neoParseTree(tree, v);
+  neoParseAndDeleteTree(tree, v);
   for (vector<int>::iterator item = v->begin(); item != v->end(); item++) {
     cout << (*item) << endl;
   }
+  delete v;
 }

@@ -3,4 +3,7 @@
 #include "tree/tree.h"
 using namespace std;
 
-int main() { testParse(); }
+int main() {
+  testCreate();
+//   testParse();
+}
