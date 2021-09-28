@@ -52,15 +52,16 @@ void parseMiddle(Node<T>* tree, vector<T>* middle, T data) {
  * 使用 前序数组和中序数组 创建tree
  * **/
 template <typename T>
-void createTree(Node<T>* tree, vector<T>* middle, vector<T>* pre) {
+void createTree(Node<T>** p_tree, vector<T>* middle, vector<T>* pre) {
   for (int i = 0; i < pre->size(); i++) {
     T data = (*pre)[i];
     if (i == 0) {
-      tree->data = data;
-      tree->left = NULL;
-      tree->right = NULL;
+      (*p_tree) = new Node<T>;
+      (*p_tree)->data = data;
+      (*p_tree)->left = NULL;
+      (*p_tree)->right = NULL;
     } else {
-      parseMiddle(tree, middle, data);
+      parseMiddle((*p_tree), middle, data);
     }
   }
 }
@@ -172,9 +173,14 @@ void testCreate() {
   pre->push_back(3);
   pre->push_back(6);
   pre->push_back(7);
-  //需要在调用createTree时创建root Node指针,这样 在创建完tree之后才能遍历输出
-  Node<int>* tree = new Node<int>;
-  createTree(tree, middle, pre);
+  //当 void createTree(Node<T>* p_tree, vector<T>* middle, vector<T>* pre)时
+  //需要在调用createTree时创建root Node指针,因为
+  // tree虽然是指针对象,但是在createTree
+  //中是个值传递参数,
+
+  //现在 tree 是个 引用传递,所以可以声明 tree 然后在createTree中new 对象.
+  Node<int>* tree;
+  createTree(&tree, middle, pre);
   cout << "end" << endl;
   //使用后序遍历 输出tree
   vector<int>* v = new vector<int>;
