@@ -9,3 +9,4 @@ struct Node {
 };
 void testParse();
 void testCreate();
+void testTreeSort();

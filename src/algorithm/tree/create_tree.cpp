@@ -190,3 +190,60 @@ void testCreate() {
   }
   delete v;
 }
+/**
+ * 中序遍历并删除tree
+ */
+template <typename T>
+void middleParseAndDeleteTree(Node<T>* tree, vector<T>* v) {
+  if (v == NULL || tree == NULL) return;
+  middleParseTree(tree->left, v);
+  v->push_back(tree->data);
+  middleParseTree(tree->right, v);
+  delete tree;
+}
+/**
+ * 创建 二叉排序树,
+ */
+void createSortTree(Node<int>* tree, int data) {
+  if (data < tree->data) {
+    if (tree->left == NULL) {
+      tree->left = new Node<int>;
+      tree->left->data = data;
+    } else {
+      createSortTree(tree->left, data);
+    }
+  } else {
+    if (tree->right == NULL) {
+      tree->right = new Node<int>;
+      tree->right->data = data;
+    } else {
+      createSortTree(tree->right, data);
+    }
+  }
+}
+/**
+ * 使用中序遍历 二叉排序树
+ */
+void treeSort(vector<int>* array) {
+  Node<int>* tree;
+  for (int i = 0; i < array->size(); i++) {
+    int data = (*array)[i];
+    if (i == 0) {
+      tree = new Node<int>;
+      tree->data = data;
+    } else {
+      createSortTree(tree, data);
+    }
+  }
+  array->clear();
+  middleParseAndDeleteTree(tree, array);
+}
+
+void testTreeSort() {
+  vector<int> array = {4, 2, 5, 1, 6, 3, 7};
+
+  treeSort(&array);
+  for (int i = 0; i < array.size(); i++) {
+    cout << array[i] << endl;
+  }
+}
