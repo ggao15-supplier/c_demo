@@ -39,7 +39,15 @@ AVLNode<T>* roateRight(AVLNode<T>* tree) {
 template <class T>
 int treeGetBalanceFactor(AVLNode<T>* tree) {
   if (tree == NULL) return 0;
-  return tree->left->height - tree->right->height;
+  int leftH = 0;
+  if (tree->left != NULL) {
+    leftH = tree->left->height;
+  }
+  int rightH = 0;
+  if (tree->right != NULL) {
+    rightH = tree->right->height;
+  }
+  return leftH - rightH;
 }
 
 template <class T>
@@ -98,8 +106,10 @@ AVLNode<T>* createAVL(vector<T>* datas) {
 }
 
 void testCreateAVL() {
-  vector<int> array = {4, 2, 5, 1, 6, 3, 7};
+  vector<int> array = {4, 2, 5, 1, 6, 3, 7, 8, 9, 10};
   AVLNode<int>* tree = createAVL(&array);
-  cout << tree->data << ":" << tree->height << ";" << tree->left->data << ":"
-       << tree->left->height << endl;
+  cout << "tree:" << tree->data << ":" << tree->height << ";"
+       << "left:" << tree->left->data << ":" << tree->left->height << ";"
+       << "right:" << tree->right->data << ":" << tree->right->height << ";"
+       << endl;
 }
