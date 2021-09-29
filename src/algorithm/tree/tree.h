@@ -21,5 +21,5 @@ struct AVLNode {
   AVLNode<T> *left = NULL;
   AVLNode<T> *right = NULL;
 };
-
+void testCreateAVL();
 #pragma endregion
