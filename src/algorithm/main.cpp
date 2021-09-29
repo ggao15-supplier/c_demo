@@ -6,5 +6,8 @@ using namespace std;
 int main() {
   // testCreate();
   //   testParse();
-    testTreeSort();
+  // testTreeSort();
+  testCreateAVL();
+
+  return 0;
 }
