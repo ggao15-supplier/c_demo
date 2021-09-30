@@ -63,7 +63,7 @@ AVLNode<T>* balance(AVLNode<T>* tree) {
     return roateRight(tree);
   } else if (factor < -1 && treeGetBalanceFactor(tree->right) > 0) {  // RL
     tree->right = roateRight(tree->right);
-    roateLeft(tree);
+    return roateLeft(tree);
   } else {
     return tree;
   }
@@ -97,10 +97,9 @@ AVLNode<T>* createAVL(vector<T>* datas) {
     } else {
       createAVLTree(tree, (*datas)[i]);
     }
+    calHeight(tree);
+    tree = balance(tree);
   }
-
-  calHeight(tree);
-  tree = balance(tree);
 
   return tree;
 }
