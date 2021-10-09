@@ -18,6 +18,9 @@ int calHeight(AVLNode<T>* tree) {
 template <class T>
 AVLNode<T>* roateLeft(AVLNode<T>* tree) {
   AVLNode<T>* temp = tree->left;
+  if (temp == NULL) {
+    return tree;
+  }
   tree->left = temp->right;
   temp->right = tree;
 
@@ -29,6 +32,9 @@ AVLNode<T>* roateLeft(AVLNode<T>* tree) {
 template <class T>
 AVLNode<T>* roateRight(AVLNode<T>* tree) {
   AVLNode<T>* temp = tree->right;
+  if (temp == NULL) {
+    return tree;
+  }
   tree->right = temp->left;
   temp->left = tree;
   calHeight(temp);
@@ -105,7 +111,7 @@ AVLNode<T>* createAVL(vector<T>* datas) {
 }
 
 void testCreateAVL() {
-  vector<int> array = {4, 2, 5, 1, 6, 3, 7, 8, 9, 10};
+  vector<int> array = {5, 4, 3, 1, 2};
   AVLNode<int>* tree = createAVL(&array);
   cout << "tree:" << tree->data << ":" << tree->height << ";"
        << "left:" << tree->left->data << ":" << tree->left->height << ";"
