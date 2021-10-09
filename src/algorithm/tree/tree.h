@@ -1,4 +1,6 @@
 
+#include <list>
+#include <string>
 using namespace std;
 #pragma region 普通二叉树
 
@@ -22,4 +24,23 @@ struct AVLNode {
   AVLNode<T> *right = NULL;
 };
 void testCreateAVL();
+#pragma endregion
+
+#pragma region B + Tree
+template <class T>
+struct BNode {
+  string key;
+  T value;
+};
+
+template <class T>
+class BTree {
+ private:
+  BNode<T> entity;
+
+ public:
+  BTree(/* args */);
+  ~BTree();
+};
+
 #pragma endregion
