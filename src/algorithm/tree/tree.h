@@ -51,39 +51,20 @@ class BTree {
   int rank;
   vector<BNode<T> *> *entities;
   vector<BTree<T> *> *children;
+  bool isLeaf;
 
  public:
-  BTree(int m) {
-    this->rank = m;
-    this->children = new vector<BNode<T> *>;
-    this->entities = new vector<BNode<T> *>;
-  }
+  BTree(int m, bool isLeaf);
 
-  ~BTree() {
-    if (this->entities != nuLL) {
-      if (!this->entities->empty()) {
-        for (int i = 0; i < this->entities->size; i++) {
-          delete (*this->entities)[i];
-        }
-        this->entities->clear();
-      }
-      delete this->entities;
-    }
-
-    if (this->children != nuLL) {
-      if (!this->children->empty()) {
-        for (int i = 0; i < this->children->size; i++) {
-          delete (*this->children)[i];
-        }
-        this->children->clear();
-      }
-      delete this->children;
-    }
-  }
+  ~BTree();
 
   void addNode(BNode<T> *n);
   void deleteNode(string key);
-  vector<BNode<T> *> search(string key);
+  BNode<T> *search(string key);
+  vector<BNode<T> *> traverse();
+  int getRank() { return rank; }
+  vector<BNode<T> *> *getEntities() { return entities; }
+  vector<BTree<T> *> *getChildren() { return children; }
 };
-
+void testSearch();
 #pragma endregion
