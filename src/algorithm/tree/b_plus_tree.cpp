@@ -78,7 +78,7 @@ BNode<T> *BTree<T>::search(string key) {
   if (this->isLeaf) return NULL;
   int i = 0;
 
-  for (int i = 0; i < this->entities->size; i++) {
+  for (int i = 0; i < this->entities->size(); i++) {
     if (key == (this->entities->at(i))->key) {
       return this->entities->at(i);
     } else if (key < (this->entities->at(i))->key) {
@@ -154,7 +154,7 @@ BTree<T> *createData() {
 
 void testSearch() {
   BTree<string> *tree = createData<string>();
-  BNode<string> *node = tree->search("1");
+  BNode<string> *node = tree->search("6");
   if (node == NULL) {
     cout << "no find" << endl;
   } else {
