@@ -76,14 +76,12 @@ void BTree<T>::deleteNode(string key) {}
 template <class T>
 BNode<T> *BTree<T>::search(string key) {
   if (this->isLeaf) return NULL;
-  int i = 0;
-
   for (int i = 0; i < this->entities->size(); i++) {
     if (key == (this->entities->at(i))->key) {
       return this->entities->at(i);
     } else if (key < (this->entities->at(i))->key) {
       // search in left children
-      for (int j = 0; j < i; j++) {
+      for (int j = 0; j <= i; j++) {
         BNode<T> *node = this->children->at(j)->search(key);
         if (node != NULL && node->key == key) {
           return node;
@@ -91,11 +89,13 @@ BNode<T> *BTree<T>::search(string key) {
       }
 
     } else {
-      // search in right children
-      for (int j = i; j < this->children->size(); j++) {
-        BNode<T> *node = this->children->at(j)->search(key);
-        if (node != NULL && node->key == key) {
-          return node;
+      if (i == this->entities->size() - 1) {
+        // search in right children
+        for (int j = i + 1; j < this->children->size(); j++) {
+          BNode<T> *node = this->children->at(j)->search(key);
+          if (node != NULL && node->key == key) {
+            return node;
+          }
         }
       }
     }
@@ -115,7 +115,7 @@ BTree<T> *createData() {
   BNode<string> *n8 = new BNode<string>;
   n8->key = "8";
   n8->value = "bbb";
-  tree->getEntities()->push_back(n4);
+  tree->getEntities()->push_back(n8);
 
   BTree<string> *c1 = new BTree<string>(3, false);
   BNode<string> *n1 = new BNode<string>;
@@ -132,7 +132,7 @@ BTree<T> *createData() {
   BNode<string> *n5 = new BNode<string>;
   n5->key = "5";
   n5->value = "eeee";
-  c1->getEntities()->push_back(n5);
+  c2->getEntities()->push_back(n5);
   BNode<string> *n6 = new BNode<string>;
   n6->key = "6";
   n6->value = "ffff";
@@ -143,18 +143,18 @@ BTree<T> *createData() {
   BNode<string> *n9 = new BNode<string>;
   n9->key = "9";
   n9->value = "gggg";
-  c1->getEntities()->push_back(n9);
+  c3->getEntities()->push_back(n9);
   BNode<string> *n10 = new BNode<string>;
   n10->key = "10";
   n10->value = "ffff";
-  c2->getEntities()->push_back(n10);
+  c3->getEntities()->push_back(n10);
   tree->getChildren()->push_back(c3);
   return tree;
 }
 
 void testSearch() {
   BTree<string> *tree = createData<string>();
-  BNode<string> *node = tree->search("6");
+  BNode<string> *node = tree->search("1");
   if (node == NULL) {
     cout << "no find" << endl;
   } else {
