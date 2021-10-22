@@ -7,8 +7,11 @@ using namespace std;
 template <class T>
 BTree<T>::BTree(int m, bool isLeaf) {
   this->rank = m;
-  this->isLeaf = isLeaf;
-  this->children = new vector<BTree<T> *>;
+  if (!isLeaf) {
+    this->children = new vector<BTree<T> *>;
+  } else {
+    this->children = NULL;
+  }
   this->entities = new vector<BNode<T> *>;
 }
 
@@ -34,16 +37,41 @@ BTree<T>::~BTree() {
     delete this->getChildren();
   }
 }
+template <class T>
+void insertBigger(BNode<T> *n, BTree<T> **nodePtr, int index) {
+  BTree<T> *node = *(nodePtr);
+  if (index == node->getEntities()->size() - 1) {
+    //最后一个数据点
+    if (node->getEntities()->size < node->getRank()) {
+      //当前节点数据没有满
+      node->getEntities()->push_back(n);
+    } else {
+      //
+    }
+    if (node->getChildren() != NULL) {
+      //不是叶子节点
+    }
+  }
+}
 
 template <class T>
 void BTree<T>::addNode(BNode<T> *n) {
-  if (this->getEntities()->empty()) {
-    this->getEntities()->push_back(n);
-  }
-  if (this->getEntities()->size() < this->rank - 1) {
-    //插入到当前node
+  if (this->entities->empty()) {
+    this->entities->push_back(n);
   } else {
-    //插入到子node
+    //当前不为空
+    for (int i = 0; i < this->entities->size(); i++) {
+      BNode<T> *currentNode = this->entities->at(i);
+      if (n->compare(currentNode) == 1) {
+        // n_key>c_key
+        insertBigger(n, &this, i);
+      } else if (n->compare(currentNode) == -1) {
+        // n_key<c_key
+      } else {
+        // n_key==c_key
+        currentNode->value = n->value;
+      }
+    }
   }
 
   cout << "getEntities() size:" << this->getEntities()->size() << endl << endl;
@@ -75,26 +103,28 @@ void BTree<T>::deleteNode(string key) {}
 
 template <class T>
 BNode<T> *BTree<T>::search(string key) {
-  if (this->isLeaf) return NULL;
   for (int i = 0; i < this->entities->size(); i++) {
     if (key == (this->entities->at(i))->key) {
       return this->entities->at(i);
     } else if (key < (this->entities->at(i))->key) {
       // search in left children
-      for (int j = 0; j <= i; j++) {
-        BNode<T> *node = this->children->at(j)->search(key);
-        if (node != NULL && node->key == key) {
-          return node;
-        }
-      }
-
-    } else {
-      if (i == this->entities->size() - 1) {
-        // search in right children
-        for (int j = i + 1; j < this->children->size(); j++) {
+      if (this->children != NULL) {
+        for (int j = 0; j <= i; j++) {
           BNode<T> *node = this->children->at(j)->search(key);
           if (node != NULL && node->key == key) {
             return node;
+          }
+        }
+      }
+    } else {
+      if (i == this->entities->size() - 1) {
+        // search in right children
+        if (this->children != NULL) {
+          for (int j = i + 1; j < this->children->size(); j++) {
+            BNode<T> *node = this->children->at(j)->search(key);
+            if (node != NULL && node->key == key) {
+              return node;
+            }
           }
         }
       }
